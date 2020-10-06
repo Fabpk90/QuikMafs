@@ -10,7 +10,7 @@
 class Vector3
 {
 private:
-    __m256 data;
+    __m256d data;
 
 public:
     Vector3();

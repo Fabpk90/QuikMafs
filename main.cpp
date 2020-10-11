@@ -3,38 +3,50 @@
 #include "Vector3.hpp"
 #include "Vector3Slow.hpp"
 
+#include <array>
+#include <iostream>
+
 int main()
 {
-    std::cout << "Hello, World!" << std::endl;
+    const int amount = 10000;
 
-    int amount = 100000;
-
-    Vector3* v0 = new Vector3[amount];
-    Vector3* v1 = new Vector3[amount];
+    std::array<Vector3*, amount> v0 = std::array<Vector3*, amount>();
+    std::array<Vector3*, amount> v1 = std::array<Vector3*, amount>();
 
     for (int i = 0; i < amount; ++i)
     {
-        v0[i] = Vector3(10, 0, 0);
-        v1[i] = Vector3(5, 0, 0);
+        v0[i] = new Vector3(10, 0, 0);
+        v1[i] = new Vector3(5, 0, 0);
     }
 
     for (int i = 0; i < amount; ++i)
     {
-        v0[i] = v0[i] + v1[i];
+        *v0[i] = *v0[i] * 5 + *v1[i];
     }
 
-    Vector3Slow* v0s = new Vector3Slow[amount];
-    Vector3Slow* v1s = new Vector3Slow[amount];
+    std::array<Vector3Slow*, amount> v0s = std::array<Vector3Slow*, amount>();
+    std::array<Vector3Slow*, amount> v1s = std::array<Vector3Slow*, amount>();
 
     for (int i = 0; i < amount; ++i)
     {
-        v0s[i] = Vector3Slow(10, 0, 0);
-        v1s[i] = Vector3Slow(5, 0, 0);
+        v0s[i] = new Vector3Slow(10, 0, 0);
+    //    std::cout << "yep" << std::endl;
+        v1s[i] = new Vector3Slow(5, 0, 0);
     }
 
     for (int i = 0; i < amount; ++i)
     {
-        v0s[i] = v0s[i] + v1s[i];
+        *v0s[i] = *v0s[i] * 5 + *v1s[i];
+    }
+
+    std::cout << "finished computing" << std::endl;
+
+    for (int i = 0; i < amount; ++i)
+    {
+        delete v0[i];
+        delete v1[i];
+        delete v1s[i];
+        delete v0s[i];
     }
 
     return 0;
